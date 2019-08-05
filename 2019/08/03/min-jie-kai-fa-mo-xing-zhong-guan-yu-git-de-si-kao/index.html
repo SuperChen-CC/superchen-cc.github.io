@@ -558,6 +558,28 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'e1f76c9c27f007a80e9f',
+        clientSecret: '6844cdf8760ae44a78c029ef34f25ba3ac25718b',
+        repo: 'https://github.com/superchen-cc/superchen-cc.github.io',
+        owner: 'superchen-cc',
+        admin: "superchen-cc",
+        id: '2019-08-03T16-31-12',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
 
     
 
