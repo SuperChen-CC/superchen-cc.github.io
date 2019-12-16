@@ -339,8 +339,10 @@ busuanziStatistics:
 # Add google analytics configuration
 # 添加 Google Analytics 配置
 googleAnalytics:
-  enable: false
-  id:
+  enable: ture
+  id: UA-154664420-1
+
+google_site_verification: TqfbGXFm5CRoXz49o42uC5QyH_MPiJZAPavd0HW2GG4
 
 # Add baidu analytics configuration
 # 添加 baidu Analytics 配置
