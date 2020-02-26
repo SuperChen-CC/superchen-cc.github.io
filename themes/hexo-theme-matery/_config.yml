@@ -270,8 +270,8 @@ gitalk:
   owner: superchen-cc
   repo: superchen-cc.github.io
   oauth:
-    clientId: e1f76c9c27f007a80e9f
-    clientSecret: 6844cdf8760ae44a78c029ef34f25ba3ac25718b
+    clientId: 4129bc59ce449e5255f3
+    clientSecret: e4c9821eeb8d223050ed3f295a01747013796d18
   admin: superchen-cc
 
 # the Gitment config，default disabled
