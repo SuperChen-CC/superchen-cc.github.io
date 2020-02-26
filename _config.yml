@@ -70,7 +70,7 @@ wordCount:
 # Google Serch
 sitemap:
     path: sitemap.xml
-    url: https://superchen-cc.github.io
+    url: https://superchen.gq
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
