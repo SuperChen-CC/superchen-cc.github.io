@@ -5,7 +5,7 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="使用 Python 监控系统信息, SuperChen&#39;s Blog">
-    <meta name="description" content="使用 Python 定时记录系统资源占用情况">
+    <meta name="description" content="10分钟完成一个系统 CPU、RAM 占用监控程序。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -425,14 +425,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2020-08-12
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    463
+                    473
                 </div>
                 
 
@@ -455,7 +455,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>网络部某同事希望监控系统的</p>
+                <p>10分钟完成一个系统 CPU、RAM 占用监控程序。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li><p>已经安装 Python (版本不限，已测试 2.7、3.6、3.7 可以正常使用)；</p>
 </li>
@@ -517,6 +517,9 @@ logger<span class="token punctuation">.</span>info<span class="token punctuation
 # |  |  |  |  |
 # *  *  *  *  * user-name  command to be executed</code></pre>
 <h2 id="pyinstaller-打包可执行程序"><a href="#pyinstaller-打包可执行程序" class="headerlink" title="pyinstaller 打包可执行程序"></a>pyinstaller 打包可执行程序</h2><p>可以使用 Pyinstall 打包可执行程序，方便安装在没有 Python 环境的系统中，但不同的平台需要单独打包(例如，如果想打包为 *.exe 的 Windwos 可执行程序，就需要现在 Windows 平台中运行 PyInstaller)。<a href="https://pyinstaller.readthedocs.io/en/stable/" target="_blank" rel="noopener">官方文档</a></p>
+<blockquote>
+<p>参考资料：<br><a href="https://psutil.readthedocs.io/en/latest/" target="_blank" rel="noopener">psutil documentation</a></p>
+</blockquote>
 
             </div>
             <hr/>
@@ -673,7 +676,7 @@ logger<span class="token punctuation">.</span>info<span class="token punctuation
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            使用 Python 定时记录系统资源占用情况
+                            10分钟完成一个系统 CPU、RAM 占用监控程序。
                         
                     </div>
                     <div class="publish-info">
