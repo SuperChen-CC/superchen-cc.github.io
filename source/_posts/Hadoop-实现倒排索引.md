@@ -14,8 +14,6 @@ tags:
 categories: Hadoop
 ---
 
-# Hadoop 实现倒排索引
-
 最近在给给女朋友做大数据选修课作业，顺便把之前学的东西往回捡一捡 2333。
 
 ![作业要求](https://tva1.sinaimg.cn/large/006tNbRwly1g9wcbauzlnj30sm0jwn1i.jpg)
