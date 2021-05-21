@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta name="keywords" content="Hadoop 实现倒排索引, SuperChen&#39;s Blog">
     <meta name="description" content="最近在给给女朋友做大数据选修课作业，顺便把之前学的东西往回捡一捡 2333。">
@@ -26,7 +26,7 @@
     
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -385,7 +385,7 @@
                                 <span class="chip bg-color">Hadoop</span>
                             </a>
                         
-                            <a href="/tags/倒排索引/">
+                            <a href="/tags/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">
                                 <span class="chip bg-color">倒排索引</span>
                             </a>
                         
@@ -424,14 +424,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.4k
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    7 分
                 </div>
                 
 				
@@ -457,34 +457,40 @@
 fileName = value.getFileName()
 // 从输入中获取所有单词
 words = value.item
-for(word : words){
+for(word : words)&#123;
     // key = 单词，文件名，单词总数
     key = word + &quot;,&quot; + fileName + &quot;,&quot; + words.length()
     value = 1
     context.write(key, value)
-}</code></pre></li>
+&#125;
+</code></pre>
+</li>
 <li><p>Combiner</p>
 <p>针对每一个输入 key，将 value 值累加，并将 key 中的文章放入 value，输出 key 为“单词”，输出 value 为“文件名,单词总数,出现次数 ….. ”</p>
 <pre><code>// 先统计同一文件下相同单词的个数
-for(value: values){
+for(value: values)&#123;
     sum += value
-}
+&#125;
 // 从 key 中取出单词作为下一阶段的 key，把 value 设置为：文件名，单词总数，出现次数
 key = key.subString(0, key.indexOf(&quot;,&quot;))
 value = key.subString(key.indexOf(&quot;,&quot;) + &quot;,&quot; sum)
-context.write(key, value)</code></pre></li>
+context.write(key, value)
+</code></pre>
+</li>
 <li><p>Reducer</p>
 <p>针对每一个输入 key，以冒号分割，将 value 值中的出现次数取出来累加，输出 key 为“单词”，输出<em>value</em>为“总出现次数:{(文件名，单词总数，出现次数)…}”</p>
-<pre><code>for(value: values){
+<pre><code>for(value: values)&#123;
     // 重设 value
   data[3] = value.split(&quot;,&quot;)
   fileList = &quot;(&quot; + data[0] + &quot;,&quot; + data[2] + &quot;,&quot; + data[1] + &quot;)&quot;
   // 统计出现总次数
   sum += data[2];
-}
-//总出现次数:{(文件名，单词总数，出现次数)...}
-result = sum + &quot;:{&quot; + fileList.toString() + &quot;}&quot;;
-context.write(key, result)</code></pre></li>
+&#125;
+//总出现次数:&#123;(文件名，单词总数，出现次数)...&#125;
+result = sum + &quot;:&#123;&quot; + fileList.toString() + &quot;&#125;&quot;;
+context.write(key, result)
+</code></pre>
+</li>
 </ul>
 <h2 id="2-设计思路"><a href="#2-设计思路" class="headerlink" title="2. 设计思路"></a>2. 设计思路</h2><p>map 阶段主要是将文件中的单词根据哈希取出(参考 hadoop 官方提供的 wordcount 例子)</p>
 <p>在 reduce 阶段，以单词作为 key ，分两步：</p>
@@ -540,7 +546,8 @@ combine --> |计算总出现次数,格式化输出|reduce</pre>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.7.7<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>project</span><span class="token punctuation">></span></span>
+</code></pre>
 <h3 id="3-2-源代码"><a href="#3-2-源代码" class="headerlink" title="3.2 源代码"></a>3.2 源代码</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>IOException<span class="token punctuation">;</span>
 <span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>StringTokenizer<span class="token punctuation">;</span>
 
@@ -554,67 +561,67 @@ combine --> |计算总出现次数,格式化输出|reduce</pre>
 <span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>mapreduce<span class="token punctuation">.</span>lib<span class="token punctuation">.</span>input<span class="token punctuation">.</span>FileSplit<span class="token punctuation">;</span>
 <span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>mapreduce<span class="token punctuation">.</span>lib<span class="token punctuation">.</span>output<span class="token punctuation">.</span>FileOutputFormat<span class="token punctuation">;</span>
 
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WordCount</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WordCount</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">myMapper</span> <span class="token keyword">extends</span> <span class="token class-name">Mapper</span><span class="token operator">&lt;</span>Object<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> Text<span class="token operator">></span>
-    <span class="token punctuation">{</span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
         <span class="token keyword">private</span> Text one <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">private</span> Text word <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">map</span><span class="token punctuation">(</span>Object key<span class="token punctuation">,</span> Text value<span class="token punctuation">,</span> Context context<span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException<span class="token punctuation">,</span> InterruptedException
-        <span class="token punctuation">{</span>
+        <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
             FileSplit fileSplit <span class="token operator">=</span> <span class="token punctuation">(</span>FileSplit<span class="token punctuation">)</span> context<span class="token punctuation">.</span><span class="token function">getInputSplit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             StringTokenizer itr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringTokenizer</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             String len <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>itr<span class="token punctuation">.</span><span class="token function">countTokens</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">while</span> <span class="token punctuation">(</span>itr<span class="token punctuation">.</span><span class="token function">hasMoreElements</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>itr<span class="token punctuation">.</span><span class="token function">hasMoreElements</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
                 <span class="token comment" spellcheck="true">// 文件名</span>
                 String fileName <span class="token operator">=</span> fileSplit<span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token comment" spellcheck="true">// 单词，文件名，总单词数</span>
                 word<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>itr<span class="token punctuation">.</span><span class="token function">nextToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">","</span> <span class="token operator">+</span> fileName <span class="token operator">+</span> <span class="token string">","</span> <span class="token operator">+</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>
                 one<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 context<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>word<span class="token punctuation">,</span> one<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">myCombiner</span> <span class="token keyword">extends</span> <span class="token class-name">Reducer</span><span class="token operator">&lt;</span>Text<span class="token punctuation">,</span>Text<span class="token punctuation">,</span>Text<span class="token punctuation">,</span>Text<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">myCombiner</span> <span class="token keyword">extends</span> <span class="token class-name">Reducer</span><span class="token operator">&lt;</span>Text<span class="token punctuation">,</span>Text<span class="token punctuation">,</span>Text<span class="token punctuation">,</span>Text<span class="token operator">></span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
         Text info <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">reduce</span><span class="token punctuation">(</span>Text key<span class="token punctuation">,</span> Iterable<span class="token operator">&lt;</span>Text<span class="token operator">></span> values<span class="token punctuation">,</span> Context context<span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException<span class="token punctuation">,</span> InterruptedException <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">reduce</span><span class="token punctuation">(</span>Text key<span class="token punctuation">,</span> Iterable<span class="token operator">&lt;</span>Text<span class="token operator">></span> values<span class="token punctuation">,</span> Context context<span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException<span class="token punctuation">,</span> InterruptedException <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
             <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-            <span class="token keyword">for</span> <span class="token punctuation">(</span>Text value <span class="token operator">:</span> values<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>Text value <span class="token operator">:</span> values<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
                 sum <span class="token operator">+=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
             <span class="token keyword">int</span> splitIndex <span class="token operator">=</span> key<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             info<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>splitIndex <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">","</span> <span class="token operator">+</span> sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token comment" spellcheck="true">//取出单词作为 key</span>
             key<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> splitIndex<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             context<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> info<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">myReducer</span> <span class="token keyword">extends</span> <span class="token class-name">Reducer</span><span class="token operator">&lt;</span>Text<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> Text<span class="token operator">></span>
-    <span class="token punctuation">{</span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
         <span class="token keyword">private</span> Text result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">reduce</span><span class="token punctuation">(</span>Text key<span class="token punctuation">,</span> Iterable<span class="token operator">&lt;</span>Text<span class="token operator">></span> values<span class="token punctuation">,</span>Context context<span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException<span class="token punctuation">,</span> InterruptedException
-        <span class="token punctuation">{</span>
+        <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
             StringBuilder fileList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             String<span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>
             <span class="token keyword">int</span> sum <span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
             <span class="token keyword">for</span> <span class="token punctuation">(</span>Text value <span class="token operator">:</span> values<span class="token punctuation">)</span>
-            <span class="token punctuation">{</span>
+            <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
                 data <span class="token operator">=</span> value<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token comment" spellcheck="true">//格式化输出：(文件名，出现次数, 单词总数)</span>
                 fileList<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"("</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token comment" spellcheck="true">// 统计出现总次数</span>
                 sum <span class="token operator">+=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-            <span class="token comment" spellcheck="true">//总出现次数:{(文件名，单词总数，出现次数)...}</span>
-            result<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>sum <span class="token operator">+</span> <span class="token string">":{"</span> <span class="token operator">+</span> fileList<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"}"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//总出现次数:&amp;#123;(文件名，单词总数，出现次数)...&amp;#125;</span>
+            result<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>sum <span class="token operator">+</span> <span class="token string">":&amp;#123;"</span> <span class="token operator">+</span> fileList<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"&amp;#125;"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             key<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             context<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception
-    <span class="token punctuation">{</span>
+    <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
         Configuration conf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Configuration</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token comment" spellcheck="true">// 设置分隔符</span>
         conf<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"mapred.textoutputformat.separator"</span><span class="token punctuation">,</span> <span class="token string">"->"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -635,16 +642,19 @@ combine --> |计算总出现次数,格式化输出|reduce</pre>
         FileOutputFormat<span class="token punctuation">.</span><span class="token function">setOutputPath</span><span class="token punctuation">(</span>job<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Path</span><span class="token punctuation">(</span>args<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
         System<span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span>job<span class="token punctuation">.</span><span class="token function">waitForCompletion</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h3 id="3-3-输出结果"><a href="#3-3-输出结果" class="headerlink" title="3.3 输出结果"></a>3.3 输出结果</h3><pre><code>bear-&gt;1:{(d2.txt,1,5)}
-cat-&gt;6:{(d2.txt,3,5)(d1.txt,2,4)(d4.txt,1,5)}
-dog-&gt;2:{(d1.txt,1,4)(d3.txt,1,3)}
-fox-&gt;3:{(d3.txt,1,3)(d2.txt,1,5)(d1.txt,1,4)}
-hen-&gt;1:{(d4.txt,1,5)}
-rabbit-&gt;1:{(d4.txt,1,5)}
-sheep-&gt;1:{(d4.txt,1,5)}
-wolf-&gt;2:{(d4.txt,1,5)(d3.txt,1,3)}</code></pre>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="3-3-输出结果"><a href="#3-3-输出结果" class="headerlink" title="3.3 输出结果"></a>3.3 输出结果</h3><pre><code>bear-&gt;1:&#123;(d2.txt,1,5)&#125;
+cat-&gt;6:&#123;(d2.txt,3,5)(d1.txt,2,4)(d4.txt,1,5)&#125;
+dog-&gt;2:&#123;(d1.txt,1,4)(d3.txt,1,3)&#125;
+fox-&gt;3:&#123;(d3.txt,1,3)(d2.txt,1,5)(d1.txt,1,4)&#125;
+hen-&gt;1:&#123;(d4.txt,1,5)&#125;
+rabbit-&gt;1:&#123;(d4.txt,1,5)&#125;
+sheep-&gt;1:&#123;(d4.txt,1,5)&#125;
+wolf-&gt;2:&#123;(d4.txt,1,5)(d3.txt,1,3)&#125;
+</code></pre>
+
             </div>
             <hr/>
 
@@ -711,7 +721,7 @@ wolf-&gt;2:{(d4.txt,1,5)(d3.txt,1,3)}</code></pre>
                                     <span class="chip bg-color">Hadoop</span>
                                 </a>
                             
-                                <a href="/tags/倒排索引/">
+                                <a href="/tags/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">
                                     <span class="chip bg-color">倒排索引</span>
                                 </a>
                             
@@ -810,7 +820,7 @@ wolf-&gt;2:{(d4.txt,1,5)(d3.txt,1,3)}</code></pre>
                                     Python
                                 </a>
                             
-                            <a href="/categories/Python/运维/" class="post-category">
+                            <a href="/categories/Python/%E8%BF%90%E7%BB%B4/" class="post-category">
                                     运维
                                 </a>
                             
@@ -825,7 +835,7 @@ wolf-&gt;2:{(d4.txt,1,5)(d3.txt,1,3)}</code></pre>
                         <span class="chip bg-color">Python</span>
                     </a>
                     
-                    <a href="/tags/运维/">
+                    <a href="/tags/%E8%BF%90%E7%BB%B4/">
                         <span class="chip bg-color">运维</span>
                     </a>
                     
@@ -867,7 +877,7 @@ wolf-&gt;2:{(d4.txt,1,5)(d3.txt,1,3)}</code></pre>
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/软件工程/" class="post-category">
+                            <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="post-category">
                                     软件工程
                                 </a>
                             
@@ -878,7 +888,7 @@ wolf-&gt;2:{(d4.txt,1,5)(d3.txt,1,3)}</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/软件工程/">
+                    <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">
                         <span class="chip bg-color">软件工程</span>
                     </a>
                     
@@ -1079,7 +1089,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">4.3k</span>&nbsp;字
+                class="white-color">4.4k</span>&nbsp;字
             
             
             
@@ -1128,6 +1138,10 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
 
 </div>
     </div>

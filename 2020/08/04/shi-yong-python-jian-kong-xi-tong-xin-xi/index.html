@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="utf-8">
     <meta name="keywords" content="使用 Python 监控系统信息, SuperChen&#39;s Blog">
     <meta name="description" content="10分钟完成一个系统 CPU、RAM 占用监控程序。">
@@ -26,7 +26,7 @@
     
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -385,7 +385,7 @@
                                 <span class="chip bg-color">Python</span>
                             </a>
                         
-                            <a href="/tags/运维/">
+                            <a href="/tags/%E8%BF%90%E7%BB%B4/">
                                 <span class="chip bg-color">运维</span>
                             </a>
                         
@@ -405,7 +405,7 @@
                                 Python
                             </a>
                         
-                            <a href="/categories/Python/运维/" class="post-category">
+                            <a href="/categories/Python/%E8%BF%90%E7%BB%B4/" class="post-category">
                                 运维
                             </a>
                         
@@ -432,7 +432,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    473
+                    489
                 </div>
                 
 
@@ -460,12 +460,15 @@
 <li><p>已经安装 Python (版本不限，已测试 2.7、3.6、3.7 可以正常使用)；</p>
 </li>
 <li><p>可以使用 pip install 安装依赖，测试方法：</p>
-<pre class=" language-bash"><code class="language-bash">pip -V</code></pre>
+<pre class=" language-bash"><code class="language-bash">pip -V
+</code></pre>
 <p>可以正常返回版本号即可。</p>
 </li>
 </ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="新建终端，安装-psutil"><a href="#新建终端，安装-psutil" class="headerlink" title="新建终端，安装 psutil"></a>新建终端，安装 psutil</h3><pre class=" language-bash"><code class="language-bash">pip <span class="token function">install</span> psutil</code></pre>
-<h3 id="新建并编辑-sys-info-py"><a href="#新建并编辑-sys-info-py" class="headerlink" title="新建并编辑 sys_info.py"></a>新建并编辑 sys_info.py</h3><pre class=" language-bash"><code class="language-bash">vim sys_info.py</code></pre>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="新建终端，安装-psutil"><a href="#新建终端，安装-psutil" class="headerlink" title="新建终端，安装 psutil"></a>新建终端，安装 psutil</h3><pre class=" language-bash"><code class="language-bash">pip <span class="token function">install</span> psutil
+</code></pre>
+<h3 id="新建并编辑-sys-info-py"><a href="#新建并编辑-sys-info-py" class="headerlink" title="新建并编辑 sys_info.py"></a>新建并编辑 sys_info.py</h3><pre class=" language-bash"><code class="language-bash">vim sys_info.py
+</code></pre>
 <p>将以下内容添加至新文件中</p>
 <pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> psutil
 <span class="token keyword">import</span> logging
@@ -499,15 +502,19 @@ logger<span class="token punctuation">.</span>addHandler<span class="token punct
 time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 
 <span class="token comment" spellcheck="true"># write log</span>
-logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">"RAM {0}% - CPU {1}%"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>psutil<span class="token punctuation">.</span>virtual_memory<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>percent<span class="token punctuation">,</span> psutil<span class="token punctuation">.</span>cpu_percent<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">"RAM &amp;#123;0&amp;#125;% - CPU &amp;#123;1&amp;#125;%"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>psutil<span class="token punctuation">.</span>virtual_memory<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>percent<span class="token punctuation">,</span> psutil<span class="token punctuation">.</span>cpu_percent<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true">## Python 3.6 f-string</span>
-<span class="token comment" spellcheck="true"># logger.info(f'RAM {psutil.virtual_memory().percent}% - CPU {psutil.cpu_percent()}%')</span></code></pre>
-<h3 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h3><pre class=" language-bash"><code class="language-bash">python sys_info.py</code></pre>
+<span class="token comment" spellcheck="true"># logger.info(f'RAM &amp;#123;psutil.virtual_memory().percent&amp;#125;% - CPU &amp;#123;psutil.cpu_percent()&amp;#125;%')</span>
+</code></pre>
+<h3 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h3><pre class=" language-bash"><code class="language-bash">python sys_info.py
+</code></pre>
 <p>无报错代表运行成功，检查 log_paht 指定位置是否生成日志。</p>
 <h3 id="编写-crontab-定时任务"><a href="#编写-crontab-定时任务" class="headerlink" title="编写 crontab 定时任务"></a>编写 crontab 定时任务</h3><p>编辑当前用户的定时任务</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">crontab</span> -e</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">crontab</span> -e
+</code></pre>
 <p>设置脚本每 30 分钟运行一次(使用 <code>i</code> 键进入编辑模式，编辑完成后敲击<code>esc</code>键，并输入 <code>:wq</code> 保存退出)</p>
-<pre class=" language-bash"><code class="language-bash">*/30 * * * * python ~/sys_info.py</code></pre>
+<pre class=" language-bash"><code class="language-bash">*/30 * * * * python ~/sys_info.py
+</code></pre>
 <h2 id="附录-crontab-语法"><a href="#附录-crontab-语法" class="headerlink" title="附录 crontab 语法"></a>附录 crontab 语法</h2><pre class=" language-crontab"><code class="language-crontab"># Example of job definition:
 # .---------------- minute (0 - 59)
 # |  .------------- hour (0 - 23)
@@ -515,10 +522,11 @@ logger<span class="token punctuation">.</span>info<span class="token punctuation
 # |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
 # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
 # |  |  |  |  |
-# *  *  *  *  * user-name  command to be executed</code></pre>
-<h2 id="pyinstaller-打包可执行程序"><a href="#pyinstaller-打包可执行程序" class="headerlink" title="pyinstaller 打包可执行程序"></a>pyinstaller 打包可执行程序</h2><p>可以使用 Pyinstall 打包可执行程序，方便安装在没有 Python 环境的系统中，但不同的平台需要单独打包(例如，如果想打包为 *.exe 的 Windwos 可执行程序，就需要现在 Windows 平台中运行 PyInstaller)。<a href="https://pyinstaller.readthedocs.io/en/stable/" target="_blank" rel="noopener">官方文档</a></p>
+# *  *  *  *  * user-name  command to be executed
+</code></pre>
+<h2 id="pyinstaller-打包可执行程序"><a href="#pyinstaller-打包可执行程序" class="headerlink" title="pyinstaller 打包可执行程序"></a>pyinstaller 打包可执行程序</h2><p>可以使用 Pyinstall 打包可执行程序，方便安装在没有 Python 环境的系统中，但不同的平台需要单独打包(例如，如果想打包为 *.exe 的 Windwos 可执行程序，就需要现在 Windows 平台中运行 PyInstaller)。<a target="_blank" rel="noopener" href="https://pyinstaller.readthedocs.io/en/stable/">官方文档</a></p>
 <blockquote>
-<p>参考资料：<br><a href="https://psutil.readthedocs.io/en/latest/" target="_blank" rel="noopener">psutil documentation</a></p>
+<p>参考资料：<br><a target="_blank" rel="noopener" href="https://psutil.readthedocs.io/en/latest/">psutil documentation</a></p>
 </blockquote>
 
             </div>
@@ -587,7 +595,7 @@ logger<span class="token punctuation">.</span>info<span class="token punctuation
                                     <span class="chip bg-color">Python</span>
                                 </a>
                             
-                                <a href="/tags/运维/">
+                                <a href="/tags/%E8%BF%90%E7%BB%B4/">
                                     <span class="chip bg-color">运维</span>
                                 </a>
                             
@@ -659,62 +667,39 @@ logger<span class="token punctuation">.</span>info<span class="token punctuation
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/04/shi-yong-python-jian-kong-xi-tong-xin-xi/">
+                <a href="/2020/08/28/untitled/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="使用 Python 监控系统信息">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">使用 Python 监控系统信息</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            10分钟完成一个系统 CPU、RAM 占用监控程序。
+                            
+ test
+
+
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-28
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Python/" class="post-category">
-                                    Python
-                                </a>
-                            
-                            <a href="/categories/Python/运维/" class="post-category">
-                                    运维
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            SuperChen
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Python/">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                    <a href="/tags/运维/">
-                        <span class="chip bg-color">运维</span>
-                    </a>
-                    
-                    <a href="/tags/psutil/">
-                        <span class="chip bg-color">psutil</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -764,7 +749,7 @@ logger<span class="token punctuation">.</span>info<span class="token punctuation
                         <span class="chip bg-color">Hadoop</span>
                     </a>
                     
-                    <a href="/tags/倒排索引/">
+                    <a href="/tags/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">
                         <span class="chip bg-color">倒排索引</span>
                     </a>
                     
@@ -961,7 +946,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">4.3k</span>&nbsp;字
+                class="white-color">4.4k</span>&nbsp;字
             
             
             
@@ -1010,6 +995,10 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
 
 </div>
     </div>
