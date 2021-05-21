@@ -19,7 +19,7 @@ Git 之所以如此流行，以我片面的认识是由于 Git 相较于传统�
 
 一个比较合理，并适应敏捷开发模型的分支管理策略是 [Vincent Driessen](http://nvie.com/) 提出的 [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/) （以下简称 “该策略”），我从中收获很多。它可以使得版本库的演进保持简洁，主干清晰，各个分支各司其职、井井有条。理论上，该策略对所有的版本管理系统都适用。当然这篇文章的主角是 Git ，我将会以 Git 举例来实现这个模型。
 
-![git 分支模型](http://ww1.sinaimg.cn/large/006tNc79ly1g52p0jiwsej30u013rgs7.jpg)
+![git 分支模型](https://www.helloimg.com/images/2021/05/21/BfBdFn.jpg)
 
 （图片来源：[A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/) ）
 
@@ -29,7 +29,7 @@ Git 之所以如此流行，以我片面的认识是由于 Git 相较于传统�
 
  版本库需要有且仅有一个主分支，这个分支通常是 master 。master 分支会在版本库初始化之后自动创建，所有提供给用户的正式版本，都应该是在该分支上。如下图：
 
-![master 分支](http://ww1.sinaimg.cn/large/006tNc79ly1g52s67cujgj306s0k4t9n.jpg)
+![master 分支](https://www.helloimg.com/images/2021/05/21/BfBQt5.jpg)
 
 这里的每一个节点对应一次提交操作，命令如下：
 
@@ -49,7 +49,7 @@ git push
 
 我们把 master 分支用来发布重大版本，日常开发应该在另一条分支上完成。通常我们把开发用的分支叫做 develop。如下图所示：
 
-![develop 分支](http://ww1.sinaimg.cn/large/006tNc79ly1g52shmjeadj30q6192gq3.jpg)
+![develop 分支](https://www.helloimg.com/images/2021/05/21/BfBvnR.jpg)
 
 这里我们需要一些额外的操作来创建一个新的分支：
 
@@ -70,7 +70,7 @@ git merge --no-ff develop
 
 这里稍微解释一下 ``--no—ff`` 参数的作用（ff => fast forward）。我们之前提到过，Git 的合并操作实际上是用类似指针的方式，将指针指向了当前的快照。而默认情况下，如果我们直接使用不带参数的 ``merge``  去合并 develop 分支，将会执行 “快进式合并” 把 master 分支的指针直接指向 develop 分支，如下图：
 
-![快进式合并](http://ww4.sinaimg.cn/large/006tNc79ly1g52uh5jme0j30m80jo74q.jpg)
+![快进式合并](https://www.helloimg.com/images/2021/05/21/BfBNBA.jpg)
 
 这和我们预想的不同。使用 ``--no--ff`` 参数，可以使 master 分支中新增一个节点，并合并 develop 中的改动，就如同我们一开始所想的那样，两条分支并行前进。
 
